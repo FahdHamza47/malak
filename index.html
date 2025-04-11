@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Your Italian Getaway!</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #e0f2f7; /* Baby blue */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 600px;
+      text-align: center; /* Center text within the container */
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left; /* Align labels to the left within the group */
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="date"], textarea {
+      width: calc(100% - 18px); /* Adjust width for padding and border */
+      padding: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      margin-bottom: 5px;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 5px;
+      vertical-align: middle; /* Align radio/checkbox with text */
+    }
+    .radio-group div, .checkbox-group div {
+      margin-bottom: 5px;
+    }
+    .radio-group label, .checkbox-group label {
+      display: inline; /* Make labels appear inline */
+      font-weight: normal; /* Reset bold for inline labels */
+      margin-left: 5px; /* Space between button and text */
+    }
+    button[type="button"], button[type="submit"], button[type="reset"] {
+      padding: 10px 20px;
+      margin: 0 5px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #summary {
+      margin-top: 20px;
+      border: 1px solid #eee;
+      padding: 15px;
+      background-color: #f9f9f9;
+      text-align: left;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Book Your Dream Hotel in Italy!</h1>
+
+    <form id="bookingForm">
+      <div class="form-group">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Preferred Room Type:</label>
+        <div class="radio-group">
+          <div>
+            <input type="radio" id="single" name="roomType" value="Single" required><label for="single">Single</label>
+          </div>
+          <div>
+            <input type="radio" id="double" name="roomType" value="Double" required><label for="double">Double</label>
+          </div>
+          <div>
+            <input type="radio" id="suite" name="roomType" value="Suite" required><label for="suite">Suite</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Extras (Optional):</label>
+        <div class="checkbox-group">
+          <div>
+            <input type="checkbox" id="breakfast" name="amenities" value="Breakfast"><label for="breakfast">Breakfast Included</label>
+          </div>
+          <div>
+            <input type="checkbox" id="parking" name="amenities" value="Parking"><label for="parking">Free Parking</label>
+          </div>
+          <div>
+            <input type="checkbox" id="wifi" name="amenities" value="WiFi"><label for="wifi">Free WiFi</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="specialRequests">Special Requests:</label>
+        <textarea id="specialRequests" name="specialRequests" rows="4"></textarea>
+      </div>
+
+      <button type="button" onclick="summarizeBooking()">Review Booking</button>
+      <button type="submit">Book Now</button>
+      <button type="reset">Reset Form</button>
+    </form>
+
+    <div id="summary" style="display: none;">
+      <h2>Your Booking Summary</h2>
+      <p id="summaryName"></p>
+      <p id="summaryRoomType"></p>
+      <p id="summaryAmenities"></p>
+      <p id="summaryRequests"></p>
+    </div>
+  </div>
+
+  <script>
+    function summarizeBooking() {
+      const name = document.getElementById('name').value;
+      const roomType = document.querySelector('input[name="roomType"]:checked');
+      const amenities = document.querySelectorAll('input[name="amenities"]:checked');
+      const specialRequests = document.getElementById('specialRequests').value;
+
+      let selectedAmenities = [];
+      amenities.forEach(amenity => {
+        selectedAmenities.push(amenity.value);
+      });
+
+      document.getElementById('summaryName').textContent = `Name: ${name}`;
+      document.getElementById('summaryRoomType').textContent = `Room Type: ${roomType ? roomType.value : 'Not Selected'}`;
+      document.getElementById('summaryAmenities').textContent = `Extras: ${selectedAmenities.length > 0 ? selectedAmenities.join(', ') : 'None'}`;
+      document.getElementById('summaryRequests').textContent = `Special Requests: ${specialRequests || 'None'}`;
+
+      document.getElementById('summary').style.display = 'block';
+    }
+
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission for this example
+      alert('Booking submitted successfully! (This is a demo - no actual booking occurs).');
+      console.log("Form Data:", new FormData(event.target));
+    });
+
+    document.getElementById('bookingForm').addEventListener('reset', function() {
+      document.getElementById('summary').style.display = 'none'; // Hide summary on reset
+    });
+  </script>
+
+</body>
+</html>
